@@ -39,9 +39,26 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CanvasPage.cs" />
+    <Compile Include="ContextModules\ContextManager.cs" />
+    <Compile Include="ContextModules\GlobalModule.cs" />
+    <Compile Include="ContextModules\LocalModule.cs" />
+    <Compile Include="Drawing\Brushes\IBrush.cs" />
+    <Compile Include="Drawing\Rulers\IRuler.cs" />
+    <Compile Include="Drawing\Services\CentralDrawingService.cs" />
+    <Compile Include="Drawing\Services\DrawingConfigService.cs" />
+    <Compile Include="Drawing\Services\Renderer.cs" />
+    <Compile Include="Drawing\Shapes\IShape.cs" />
+    <Compile Include="Geometry\PLine.cs" />
+    <Compile Include="Geometry\PVector.cs" />
+    <Compile Include="Layering\BitmapWrapper.cs" />
+    <Compile Include="Layering\CanvasWrapper.cs" />
+    <Compile Include="Layering\LayerManager.cs" />
+    <Compile Include="Layering\PLayer.cs" />
+    <Compile Include="Layering\PSize.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MathExtenions\NumberConversions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +72,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.Ninject.3.3.1\lib\portable-net4+sl5+wp8+win8+wpa81+monotouch+monoandroid+Xamarin.iOS\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="SkiaSharp, Version=1.58.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SkiaSharp.1.58.0\lib\portable-net45+win8+wpa81+wp8\SkiaSharp.dll</HintPath>
     </Reference>
@@ -74,6 +94,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

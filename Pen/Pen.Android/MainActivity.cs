@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Ninject;
+using Pen.ContextModules;
 
 namespace Pen.Droid
 {
@@ -20,7 +22,8 @@ namespace Pen.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+            var kernel = new StandardKernel(new GlobalModule());
+            LoadApplication(kernel.Get<App>());
         }
     }
 }

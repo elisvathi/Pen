@@ -1,0 +1,132 @@
+﻿using BaseLibrary.MathExtenions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BaseLibrary.Geometry
+{
+    public class PVector
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public PVector(double x, double y)
+        {
+            X = x; Y = y;
+        }
+        public PVector(float x, float y)
+        {
+            X = x; Y = y;
+        }
+        public void Add(PVector v)
+        {
+            X += v.X;
+            Y += v.Y;
+        }
+        public void Mult(double val)
+        {
+            X *= val;
+            Y *= val;
+        }
+        public PVector Copy()
+        {
+            return new PVector(X, Y);
+        }
+        public void Sub(PVector v)
+        {
+            var vv = v.Copy();
+            vv.Mult(-1);
+            Add(vv);
+        }
+        public double Mag
+        {
+            get
+            {
+                return Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+            }
+        }
+        public void SetMag(double val)
+        {
+            Mult(val / Mag);
+        }
+        public double AngleRadians
+        {
+            get
+            {
+                return Math.Atan(Y / X);
+            }
+        }
+        public double AngleDegrees
+        {
+            get
+            {
+                return AngleRadians.ToDegrees();
+            }
+        }
+        public void RotateRadians(double radians)
+        {
+            var ca = Math.Cos(radians);
+            var sa = Math.Sin(radians);
+            var tempX = ca * X - sa * Y;
+            var tempY = sa * X + ca * Y;
+            X = tempX;
+            Y = tempY;
+        }
+        public void RotateDegrees(double degrees)
+        {
+            RotateRadians(degrees.ToRadians());
+        }
+
+        public double DistanceTo(PVector v)
+        {
+            var a = v.Copy();
+            a.Sub(this);
+            return a.Mag;
+        }
+        public double AngleWithRadians(PVector b)
+        {
+            return Math.Atan2(b.Y - Y, b.X - X);
+        }
+        public double AngleWithDegrees(PVector b)
+        {
+            return AngleWithRadians(b).ToDegrees();
+        }
+
+        public static PVector Sub(PVector a, PVector b)
+        {
+            var v1 = a.Copy();
+            v1.Sub(b);
+            return v1;
+        }
+        public static PVector Add(PVector a, PVector b)
+        {
+            var v1 = a.Copy();
+            v1.Add(b);
+            return v1;
+        }
+        public static double DistanceBetween(PVector a, PVector b)
+        {
+            return a.DistanceTo(b);
+        }
+        public static double AngleBetweenRadians(PVector a, PVector b)
+        {
+            return a.AngleWithRadians(b);
+        }
+
+        public static double AngleBetweenDegrees(PVector a, PVector b)
+        {
+            return a.AngleWithDegrees(b);
+        }
+        public static PVector  GetFromRotationRadians(PVector a, double radians)
+        {
+            var retVal = a.Copy();
+            retVal.RotateRadians(radians);
+            return retVal;
+        }
+        public static PVector GetFromRotationDegrees(PVector a, double degrees)
+        {
+            return PVector.GetFromRotationRadians(a, degrees.ToRadians());
+        }
+    }
+}

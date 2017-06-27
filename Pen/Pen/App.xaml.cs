@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ninject;
+using Pen.ContextModules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +11,13 @@ namespace Pen
 {
     public partial class App : Application
     {
-        public App()
+        private ContextManager _manager;
+        public App(ContextManager manager)
         {
+            _manager = manager;
             InitializeComponent();
 
-            MainPage = new CanvasPage();
+            MainPage = manager.ActiveKernel.Get<CanvasPage>();
         }
 
         protected override void OnStart()

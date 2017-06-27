@@ -4,6 +4,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Ninject;
+using Pen.ContextModules;
 
 namespace Pen.iOS
 {
@@ -23,7 +25,8 @@ namespace Pen.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            var kernel = new StandardKernel(new GlobalModule());
+            LoadApplication(kernel.Get<App>());
 
             return base.FinishedLaunching(app, options);
         }
