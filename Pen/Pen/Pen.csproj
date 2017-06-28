@@ -59,7 +59,14 @@
     <Compile Include="Geometry\GeometryShapes\PointCollectionGeometry.cs" />
     <Compile Include="Geometry\PLine.cs" />
     <Compile Include="Geometry\PVector.cs" />
-    <Compile Include="Gestures\PTouch.cs" />
+    <Compile Include="Gestures\EventArgsStructs\DoubleTouchEventArgs.cs" />
+    <Compile Include="Gestures\GestureCatcher.cs" />
+    <Compile Include="Gestures\GestureRecognizers\DoubleTouchGestureRecognizer.cs" />
+    <Compile Include="Gestures\EventArgsStructs\MoveEventArgs.cs" />
+    <Compile Include="Gestures\EventArgsStructs\PTouch.cs" />
+    <Compile Include="Gestures\EventArgsStructs\RotateEventArgs.cs" />
+    <Compile Include="Gestures\EventArgsStructs\ScaleEventArgs.cs" />
+    <Compile Include="Gestures\GestureRecognizers\SingleTouchGestureRecognizer.cs" />
     <Compile Include="Layering\BitmapWrapper.cs" />
     <Compile Include="Layering\CanvasWrapper.cs" />
     <Compile Include="Layering\LayerManager.cs" />

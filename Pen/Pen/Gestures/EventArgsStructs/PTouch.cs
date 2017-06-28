@@ -1,9 +1,4 @@
 ﻿using Pen.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pen.Gestures
 {
@@ -11,6 +6,6 @@ namespace Pen.Gestures
     {
         public PVector Position;
         public double Pressure;
-        public int time;
+        public ulong Time;
     }
 }
