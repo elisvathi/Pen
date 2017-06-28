@@ -1,5 +1,10 @@
 ﻿using Ninject;
 using Ninject.Modules;
+using Pen.Drawing.Brushes;
+using Pen.Drawing.Rulers;
+using Pen.Drawing.Services;
+using Pen.Drawing.Shapes;
+using Pen.Geometry.GeometryShapes;
 using Pen.Layering;
 using SkiaSharp;
 using System;
@@ -26,8 +31,20 @@ namespace Pen.ContextModules
 
             Bind<BitmapWrapper>().ToSelf().InTransientScope();
             Bind<CanvasWrapper>().ToSelf().InTransientScope();
-           
-            
+
+            Bind<IRuler>().To<NoRuler>().InSingletonScope();
+            Bind<IBrush>().To<SimpleBrush>().InSingletonScope();
+            Bind<IShape>().To<FreeShape>().InTransientScope();
+
+            Bind<DrawingConfigService>().ToSelf().InSingletonScope();
+            Bind<CentralDrawingService>().ToSelf().InSingletonScope();
+            Bind<PRenderer>().ToSelf().InSingletonScope();
+
+            Bind<LineGeometry>().ToSelf().InTransientScope();
+            Bind<PointCollectionGeometry>().ToSelf().InTransientScope();
+
+            Bind<LayerManager>().ToSelf().InSingletonScope();
+            Bind<PLayer>().ToSelf().InTransientScope();
         }
     }
 }

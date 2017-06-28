@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pen.Drawing.Brushes
+namespace Pen.Gestures
 {
-   public interface IBrush
+    public struct PTouch
     {
-        void Draw(List<PVector> data);
+        public PVector Position;
+        public double Pressure;
+        public int time;
     }
 }

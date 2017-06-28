@@ -24,6 +24,9 @@ namespace Pen.Geometry
         {
             get { return PVector.DistanceBetween(Start, End); }
         }
+        public PLine()
+        {
+        }
         public PVector FullVector { get { return PVector.Sub(End, Start); } }
         public PVector UnitVector { get { var a = FullVector.Copy(); a.SetMag(1); return a; } }
 

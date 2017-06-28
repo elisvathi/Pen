@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ninject;
+using SkiaSharp;
 
 namespace Pen.Layering
 {
     public class LayerManager
     {
+        private bool IsDrawingTemp;
         List<PLayer> _layers;
         PLayer _temp;
         private ContextManager _manager;
@@ -21,7 +23,11 @@ namespace Pen.Layering
             _temp = manager.ActiveKernel.Get<PLayer>();
             _layers = new List<PLayer>();
             AddNewLayer();
+            IsDrawingTemp = true;
         }
+
+        public SKCanvas CanvasToDraw { get { return IsDrawingTemp ? _temp.Canvas.SCanvas : ActiveLayer.Canvas.SCanvas; } }
+
         public PLayer ActiveLayer { get { if (ActiveLayerIndex >= 0) return _layers[ActiveLayerIndex]; else return null; } }
         public void AddNewLayer()
         {
@@ -46,6 +52,9 @@ namespace Pen.Layering
         {
             if (_layers.Count > 0) { ActiveLayerIndex = _layers.Count + 1; } else { ActiveLayerIndex = 1; }
         }
+
+        public void SetDrawingAsTemporary() { IsDrawingTemp = true; }
+        public void SetDrawingAsFinal() { IsDrawingTemp = false; }
 
     }
 }
