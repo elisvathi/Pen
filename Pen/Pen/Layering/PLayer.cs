@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using Pen.LibraryExtensions;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,12 @@ namespace Pen.Layering
             _canvas = canvas;
         }
         public CanvasWrapper Canvas { get => _canvas; }
+        public void ClearLayer()
+        {
+            Canvas.SCanvas.Clear();
+            GetBitmap.EmptyBitmap();
+            
+        }
+        public SKBitmap GetBitmap { get { return Canvas.GetBitmap; } }
     }
 }

@@ -5,7 +5,9 @@ using Pen.Drawing.Rulers;
 using Pen.Drawing.Services;
 using Pen.Drawing.Shapes;
 using Pen.Geometry.GeometryShapes;
+using Pen.Gestures;
 using Pen.Layering;
+using Pen.UI.MainCanvas;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -27,14 +29,14 @@ namespace Pen.ContextModules
             Bind<ContextManager>().ToConstant(_manager).InSingletonScope();
             Bind<PSize>().ToConstant(_manager.GlobalKernel.Get<PSize>()).InSingletonScope();
             Bind<CanvasPage>().ToSelf().InSingletonScope();
-
+            Bind<TouchCanvas>().ToSelf().InSingletonScope();
 
             Bind<BitmapWrapper>().ToSelf().InTransientScope();
             Bind<CanvasWrapper>().ToSelf().InTransientScope();
 
             Bind<IRuler>().To<NoRuler>().InSingletonScope();
             Bind<IBrush>().To<SimpleBrush>().InSingletonScope();
-            Bind<IShape>().To<FreeShape>().InTransientScope();
+            Bind<IShape>().To<LineShape>().InTransientScope();
 
             Bind<DrawingConfigService>().ToSelf().InSingletonScope();
             Bind<CentralDrawingService>().ToSelf().InSingletonScope();
@@ -45,6 +47,9 @@ namespace Pen.ContextModules
 
             Bind<LayerManager>().ToSelf().InSingletonScope();
             Bind<PLayer>().ToSelf().InTransientScope();
+
+            Bind<DoubleTouchGestureRecognizer>().ToSelf().InTransientScope();
+            Bind<SingleTouchGestureRecognizer>().ToSelf().InTransientScope();
         }
     }
 }

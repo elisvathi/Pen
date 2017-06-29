@@ -16,10 +16,10 @@ namespace Pen.Drawing.Services
         public SKColor FillColor { get; set; }
         public DrawingConfigService()
         {
-            SWidth = 1;
+            SWidth = 5;
             UseFill = false;
             UseStroke = true;
-            StrokeColor = SKColors.Black;
+            StrokeColor = SKColors.Blue;
             FillColor = SKColors.Gray;
         }
         public SKPaint SPaint

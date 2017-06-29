@@ -11,11 +11,14 @@ namespace Pen.Layering
         
     {
         private SKCanvas _canvas;
+        private BitmapWrapper _bmp;
         public CanvasWrapper(BitmapWrapper bitmap)
         {
-            _canvas = new SKCanvas(bitmap.SBitmap);
+            _bmp = bitmap;
+            _canvas = new SKCanvas(_bmp.SBitmap);
             
         }
         public SKCanvas SCanvas { get=>_canvas; }
+        public SKBitmap GetBitmap { get => _bmp.SBitmap; }
     }
 }

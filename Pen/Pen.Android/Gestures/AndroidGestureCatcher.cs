@@ -1,11 +1,14 @@
 ﻿using Android.Views;
 using Pen.Gestures;
 using Pen.Geometry;
+using static Android.Views.View;
 
 namespace Pen.Droid.Gestures
 {
     public class AndroidGestureCatcher : GestureCatcher
     {
+        bool isInProgress;
+        bool singleInProgress;
         int FirstID;
         int SecondID;
         public AndroidGestureCatcher()
@@ -15,89 +18,60 @@ namespace Pen.Droid.Gestures
         }
         private bool IsDoubleTouch
         {
-            get { return FirstID != -1 && SecondID != -1; }
+            get { return isInProgress; }
         }
         private bool IsSingleTouch(MotionEvent e)
         {
-            return !IsDoubleTouch && e.GetPointerId(e.ActionIndex) == FirstID;
+            return !IsDoubleTouch && e.GetPointerId(e.ActionIndex) == FirstID && singleInProgress;
         }
-        private void UpdateFirstPoint(MotionEvent e)
+        private void UpdateFirstPoint(MotionEvent e, int index)
         {
-            newFirstPoint = new PVector(e.RawX, e.RawY);
-            newFirstPRessure = e.Pressure;
+            newFirstPoint = new PVector(e.GetX(index), e.GetY(index));
+            newFirstPRessure = e.GetPressure(index);
             newFirstTime = (ulong)e.EventTime;
         }
-        private void UpdateSecondPoint(MotionEvent e)
+        private void UpdateSecondPoint(MotionEvent e, int index)
         {
-            newSecondPoint = new PVector(e.RawX, e.RawY);
-            newSecondPressure = e.Pressure;
+            newSecondPoint = new PVector(e.GetX(index), e.GetY(index));
+            newSecondPressure = e.GetPressure(index);
             newSecondTime = (ulong)e.EventTime;
         }
         private void FinishDoubleTouch(MotionEvent e)
         {
             var id = e.GetPointerId(e.ActionIndex);
-            if (id == FirstID) { FirstID = SecondID; SecondID = -1; OnDoubleTouchEnded(); } else if (id == SecondID) { SecondID = -1; OnDoubleTouchEnded(); }
+            if (id == FirstID) { FirstID = SecondID; SecondID = -1; OnDoubleTouchEnded(); isInProgress = false; } else if (id == SecondID) { SecondID = -1; OnDoubleTouchEnded(); isInProgress = false; }
         }
-        internal void OnMotion(object sender, View.GenericMotionEventArgs e)
+        internal void OnMotion(MotionEvent e)
         {
-            var id = e.Event.GetPointerId(e.Event.ActionIndex);
-            switch (e.Event.ActionMasked)
+            var id = e.GetPointerId(e.ActionIndex);
+            switch (e.ActionMasked)
             {
 
-                case MotionEventActions.Outside:
+                case MotionEventActions.Down:
                     {
-                        if (!IsDoubleTouch)
-                        {
-                            if (!IsSingleTouch(e.Event))
-                            {
-                                SingleTouchExited();
-                            }
-                        }
-                        else
-                        {
-                            FinishDoubleTouch(e.Event);
-                        }
+                        FirstID = id;
+                        SecondID = -1;
+                        isInProgress = false;
+                        singleInProgress = true;
+                        var index = e.FindPointerIndex(FirstID);
+                        UpdateFirstPoint(e, index);
+                        SingleTouchStart();
                         break;
                     }
                 case MotionEventActions.PointerDown:
                     {
-                        if (FirstID == -1)
-                        {
-                            FirstID = id;
-                            UpdateFirstPoint(e.Event);
-                            SingleTouchStart();
-
-                        }
-                        else if (SecondID == -1)
+                        if (FirstID != -1 && SecondID == -1)
                         {
                             SecondID = id;
-                            UpdateSecondPoint(e.Event);
-                            SingleTouchEnded();
+                            var index1 = e.FindPointerIndex(FirstID);
+                            var index2 = e.FindPointerIndex(SecondID);
+                            UpdateFirstPoint(e, index1);
+                            UpdateSecondPoint(e, index2);
+                            SwapOldNew();
+                            isInProgress = true;
+                            singleInProgress = false;
                             OnDoubleTouchStarted();
-                        }
-                        break;
-                    }
-                case MotionEventActions.PointerUp:
-                    {
-                        if (IsDoubleTouch)
-                        {
-                            FinishDoubleTouch(e.Event);
-                        }
-                        else if (IsSingleTouch(e.Event))
-                        {
                             SingleTouchEnded();
-                        }
-                        break;
-                    }
-                case MotionEventActions.Cancel:
-                    {
-                        if (IsDoubleTouch)
-                        {
-                            FinishDoubleTouch(e.Event);
-                        }
-                        else if (IsSingleTouch(e.Event))
-                        {
-                            SingleTouchCancelled();
                         }
                         break;
                     }
@@ -105,31 +79,68 @@ namespace Pen.Droid.Gestures
                     {
                         if (IsDoubleTouch)
                         {
-                            if (id == FirstID)
-                            {
-                                SwapOldNew();
-                                UpdateFirstPoint(e.Event);
-                                OnScale();
-                                OnRotate();
-                                OnMove();
-                            }
-                            else if (id == SecondID)
-                            {
-                                SwapOldNew();
-                                UpdateSecondPoint(e.Event);
-                                OnScale();
-                                OnRotate();
-                                OnMove();
-                            }
-                        }
-                        else if (IsSingleTouch(e.Event))
+                            var index1 = e.FindPointerIndex(FirstID);
+                            var index2 = e.FindPointerIndex(SecondID);
+                            SwapOldNew();
+                            UpdateFirstPoint(e, index1);
+                            UpdateSecondPoint(e, index2);
+                            OnMove();
+                            OnRotate();
+                            OnScale();
+                        }else if (IsSingleTouch(e))
                         {
                             SwapOldNew();
-                            UpdateFirstPoint(e.Event);
+                            UpdateFirstPoint(e, e.FindPointerIndex(FirstID));
                             SingleTouchMoved();
                         }
                         break;
                     }
+
+                case MotionEventActions.Up:
+                case MotionEventActions.PointerUp:
+                    {
+                        if (IsDoubleTouch)
+                        {
+                            FinishDoubleTouch(e);
+                        }else if (IsSingleTouch(e))
+                        {
+                            SingleTouchEnded();
+                            singleInProgress = false;
+                        }
+                        break;
+                    }
+                case MotionEventActions.Cancel:
+                    {
+
+                        if (IsDoubleTouch)
+                        {
+                            FinishDoubleTouch(e);
+                        }
+                        else if (IsSingleTouch(e))
+                        {
+                            SingleTouchCancelled();
+                            singleInProgress = false;
+                        }
+                        break;
+                    }
+                case MotionEventActions.Outside:
+                    {
+                        
+                        if (!IsDoubleTouch)
+                        {
+                            if (!IsSingleTouch(e))
+                            {
+                                SingleTouchExited();
+                            }
+                        }
+                        else
+                        {
+                            FinishDoubleTouch(e);
+                            singleInProgress = false;
+                        }
+                        break;
+                    }
+
                 default:
                     {
                         break;

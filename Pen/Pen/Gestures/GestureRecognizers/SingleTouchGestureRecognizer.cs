@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Xamarin.Forms;
+using static Pen.Gestures.GestureCatcher;
 
 namespace Pen.Gestures
 {
@@ -7,11 +8,18 @@ namespace Pen.Gestures
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void TouchStarted(PTouch touch) { }
-        public void TouchMoved(PTouch touch) { }
-        public void TouchEnded(PTouch touch) { }
-        public void TouchExited(PTouch touch) { }
-        public void TouchCancelled(PTouch touch) { }
+
+        public event SingleTouchDelegate StartedTouch;
+        public event SingleTouchDelegate EndedTouch;
+        public event SingleTouchDelegate MovedTouch;
+        public event SingleTouchDelegate ExitedTouch;
+        public event SingleTouchDelegate CancelledTouch;
+
+        public void TouchStarted(PTouch touch) { StartedTouch?.Invoke(touch); }
+        public void TouchMoved(PTouch touch) { MovedTouch?.Invoke(touch); }
+        public void TouchEnded(PTouch touch) { EndedTouch?.Invoke(touch); }
+        public void TouchExited(PTouch touch) { ExitedTouch?.Invoke(touch); }
+        public void TouchCancelled(PTouch touch) { CancelledTouch?.Invoke(touch); }
 
         private GestureCatcher _catcher;
         public void SetCatcher(GestureCatcher catcher)

@@ -4,18 +4,21 @@ using SkiaSharp.Views.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms.Platform.UWP;
+using System;
+using Windows.UI.Xaml.Input;
+using Pen.UI.MainCanvas;
 
-[assembly: ExportRenderer(typeof(SkiaSharp.Views.UWP.SKXamlCanvas), typeof(CustcomCanvasRenderer))]
+[assembly: ExportRenderer(typeof(TouchCanvas), typeof(UWPCanvasRenderer))]
 namespace Pen.UWP.Gestures
 {
-    public class CustcomCanvasRenderer : SKCanvasViewRenderer
+    public class UWPCanvasRenderer : SKCanvasViewRenderer
     {
         private UWPGestureHandler catcher;
-        public CustcomCanvasRenderer() : base()
+        public UWPCanvasRenderer() : base()
         {
             //TODO: Change with platform specific Class
             catcher = new UWPGestureHandler();
-
+            System.Diagnostics.Debug.Write("LOADED RENDERER");
         }
 
 
@@ -39,8 +42,8 @@ namespace Pen.UWP.Gestures
                         (a as DoubleTouchGestureRecognizer).SetCatcher(catcher);
                     }
                 }
-              
 
+                
                 Control.PointerPressed += catcher.PointerPressed;
                 Control.PointerMoved += catcher.PointerMoved;
                 Control.PointerReleased += catcher.PointerReleased;
@@ -49,6 +52,6 @@ namespace Pen.UWP.Gestures
             }
         }
 
-
+       
     }
 }

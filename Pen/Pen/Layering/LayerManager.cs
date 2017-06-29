@@ -32,6 +32,7 @@ namespace Pen.Layering
         public void AddNewLayer()
         {
             _layers.Add(_manager.ActiveKernel.Get<PLayer>());
+            ChangeActiveLayerAutomatically();
         }
         public void RemoveLayer(PLayer l)
         {
@@ -42,19 +43,23 @@ namespace Pen.Layering
                     AddNewLayer();
                     _layers.Remove(l);
                 }
+                ChangeActiveLayerAutomatically();
             }
         }
         public void RemoveLayer(int i)
         {
             RemoveLayer(_layers[i]);
+
         }
         private void ChangeActiveLayerAutomatically()
         {
-            if (_layers.Count > 0) { ActiveLayerIndex = _layers.Count + 1; } else { ActiveLayerIndex = 1; }
+            if (_layers.Count > 0) { ActiveLayerIndex = _layers.Count - 1; } else { ActiveLayerIndex = 1; }
         }
 
         public void SetDrawingAsTemporary() { IsDrawingTemp = true; }
         public void SetDrawingAsFinal() { IsDrawingTemp = false; }
-
+        public void ClearTemporary() { _temp.ClearLayer(); }
+        public List<PLayer> Layers { get { return _layers; } }
+        public PLayer TempLayer { get { return _temp; } }
     }
 }

@@ -61,6 +61,11 @@
     <Compile Include="Geometry\PVector.cs" />
     <Compile Include="Gestures\EventArgsStructs\DoubleTouchEventArgs.cs" />
     <Compile Include="Gestures\GestureCatcher.cs" />
+    <Compile Include="Gestures\GestureListeners\IGloballyMovable.cs" />
+    <Compile Include="Gestures\GestureListeners\IGloballyRotatable.cs" />
+    <Compile Include="Gestures\GestureListeners\IGLoballyScalable.cs" />
+    <Compile Include="Gestures\GestureListeners\IGloballyTransformable.cs" />
+    <Compile Include="Gestures\GestureListeners\ISingleTouchListener.cs" />
     <Compile Include="Gestures\GestureRecognizers\DoubleTouchGestureRecognizer.cs" />
     <Compile Include="Gestures\EventArgsStructs\MoveEventArgs.cs" />
     <Compile Include="Gestures\EventArgsStructs\PTouch.cs" />
@@ -72,11 +77,13 @@
     <Compile Include="Layering\LayerManager.cs" />
     <Compile Include="Layering\PLayer.cs" />
     <Compile Include="Layering\PSize.cs" />
+    <Compile Include="LibraryExtensions\SkiaExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MathExtenions\NumberConversions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\MainCanvas\TouchCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainPage.xaml">

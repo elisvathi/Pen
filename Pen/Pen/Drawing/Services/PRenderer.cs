@@ -1,5 +1,6 @@
 ﻿using Pen.Geometry;
 using Pen.Layering;
+using Pen.LibraryExtensions;
 using Pen.MathExtenions;
 using SkiaSharp;
 using System;
@@ -31,6 +32,31 @@ namespace Pen.Drawing.Services
         public void DrawCircle(PVector center, double radius, SKPaint paint)
         {
             ActiveCanvas.DrawCircle(center.X.ToFloat(), center.Y.ToFloat(), radius.ToFloat(), paint);
+        }
+        public void DrawSpline(List<PVector> pts)
+        {
+            DrawSpline(pts, _BrushInfoService.SPaint);
+        }
+        public void DrawSpline(List<PVector> pts, SKPaint paint)
+        {
+            var path = new SKPath();
+            path.MoveTo(pts[0].ToSKPoint());
+            if(pts.Count >= 2) { 
+            for(int i =0; i<pts.Count-2; i += 2)
+            {
+                    //path.CubicTo(pts[i].ToSKPoint(), pts[i + 1].ToSKPoint(), pts[i + 2].ToSKPoint());
+                    path.ConicTo(pts[i].ToSKPoint(), pts[i + 1].ToSKPoint(), 25);
+            }
+            }
+            else
+            {
+                for(int i = 1;i< pts.Count; i++)
+                {
+                    path.LineTo(pts[i].ToSKPoint());
+                }
+            }
+
+            ActiveCanvas.DrawPath(path, paint);
         }
     }
 }

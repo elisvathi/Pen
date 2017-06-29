@@ -21,6 +21,7 @@ namespace Pen.Geometry.GeometryShapes
         public void AddStartPoint(PVector p)
         {
             baseGeometry.Start = p;
+            baseGeometry.End = p;
         }
 
         public void AddUpdatePoint(PVector p)

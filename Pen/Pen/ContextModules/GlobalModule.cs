@@ -17,7 +17,7 @@ namespace Pen.ContextModules
             Bind<ContextManager>().ToSelf().InSingletonScope();
             Bind<App>().ToSelf().InSingletonScope();
 
-            var sz = new PSize() {Width = 5000, Height = 5000 };
+            var sz = new PSize() {Width = 1080, Height = 1920 };
             Bind<PSize>().ToConstant(sz).InTransientScope();
         }
     }

@@ -21,6 +21,7 @@ namespace Pen.Drawing.Brushes
             {
                 _renderer.DrawLine(data[i], data[i + 1]);
             }
+            //_renderer.DrawSpline(data);
         }
     }
 }

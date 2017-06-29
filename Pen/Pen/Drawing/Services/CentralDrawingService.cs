@@ -10,12 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject;
 using Pen.Gestures;
+using Pen.UI.MainCanvas;
 
 namespace Pen.Drawing.Services
 {
     public class CentralDrawingService
     {
         private IShape Shape;
+        public delegate void DrawingChanged();
+        public event DrawingChanged OnChange;
         private LayerManager _layerManager;
         private ContextManager _manager;
         public CentralDrawingService(LayerManager lm, ContextManager manager)
@@ -24,24 +27,35 @@ namespace Pen.Drawing.Services
             _manager = manager;
 
         }
+       
         private bool IsInitialized()
         {
             return Shape != null;
         }
-        private void InitializeDrawing(PTouch touch)
+        public void InitializeDrawing(PTouch touch)
         {
             _layerManager.SetDrawingAsTemporary();
             GetFromKernel();
             Shape.Initialize(touch);
+            _layerManager.ClearTemporary();
             DrawStep();
+
         }
-        private void UpdateShape(PTouch touch)
+        public void UpdateShape(PTouch touch)
         {
             Shape.Update(touch);
+            _layerManager.ClearTemporary();
             DrawStep();
         }
-        private void FinalizeDrawing(PTouch touch)
+        public void CancelDrawing(PTouch touch)
         {
+            _layerManager.ClearTemporary();
+            Clear();
+            OnChange?.Invoke();
+        }
+        public void FinalizeDrawing(PTouch touch)
+        {
+            _layerManager.ClearTemporary();
             _layerManager.SetDrawingAsFinal();
             Shape.FinalizeShape(touch);
             DrawStep();
@@ -62,6 +76,7 @@ namespace Pen.Drawing.Services
         private void DrawStep()
         {
             Shape.DrawOnScreen();
+            OnChange?.Invoke();
         }
     }
 }

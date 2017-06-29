@@ -9,6 +9,10 @@ namespace Pen.Geometry.GeometryShapes
   public  class PointCollectionGeometry : IGeometricShape
     {
         private List<PVector> _pointData;
+        public PointCollectionGeometry()
+        {
+            _pointData = new List<PVector>();
+        }
         private double Length
         {
             get

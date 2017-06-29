@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using SkiaSharp.Views.Forms;
-using SkiaSharp.Views.Android;
+﻿using SkiaSharp.Views.Forms;
 using Xamarin.Forms.Platform.Android;
 using Pen.Gestures;
 using Xamarin.Forms;
 using Pen.Droid.Gestures;
+using Pen.UI.MainCanvas;
+using Android.Views;
+using System;
 
-[assembly: ExportRenderer(typeof(SkiaSharp.Views.Android.SKCanvasView), typeof(CustomCanvasRenderer))]
+[assembly: ExportRenderer(typeof(TouchCanvas), typeof(AndroidCanvasRenderer))]
 namespace Pen.Droid.Gestures
 {
-    public class CustomCanvasRenderer : SKCanvasViewRenderer
+    public class AndroidCanvasRenderer : SKCanvasViewRenderer
     {
         private AndroidGestureCatcher catcher;
-        public CustomCanvasRenderer()
+        public AndroidCanvasRenderer()
         {
             catcher = new AndroidGestureCatcher();
+        }
+        public override bool OnTouchEvent(MotionEvent e)
+        {
+            catcher.OnMotion(e);
+            
+            return true;
+            //return base.OnTouchEvent(e);
         }
         protected override void OnElementChanged(ElementChangedEventArgs<SkiaSharp.Views.Forms.SKCanvasView> e)
         {
@@ -41,9 +39,14 @@ namespace Pen.Droid.Gestures
                 }
             }
 
-            Control.GenericMotion += catcher.OnMotion;
+            //Control.GenericMotion += catcher.OnMotion;
+            //Control.Touch += HandleTouch;
+           
         }
 
-
+        private bool TestM(MotionEvent arg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
