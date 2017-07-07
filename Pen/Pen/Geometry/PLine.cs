@@ -107,5 +107,13 @@ namespace Pen.Geometry
                 return new PVector(x, y);
             }
         }
+        public PVector ClosesetPoint(PVector p)
+        {
+            var a = FullVector.Copy();
+            a.RotateDegrees(90);
+            a.Add(p);
+            var newLine = new PLine(p, a);
+            return Intersection(newLine);
+        }
     }
 }

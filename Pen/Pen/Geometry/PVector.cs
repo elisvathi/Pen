@@ -128,5 +128,9 @@ namespace Pen.Geometry
         {
             return PVector.GetFromRotationRadians(a, degrees.ToRadians());
         }
+        public void DebugVector()
+        {
+            System.Diagnostics.Debug.WriteLine("VECOTR: X-> " + X+ "Y->" + Y);
+        }
     }
 }

@@ -47,6 +47,9 @@
     <Compile Include="Drawing\Rulers\AbstractRuler.cs" />
     <Compile Include="Drawing\Rulers\IRuler.cs" />
     <Compile Include="Drawing\Rulers\NoRuler.cs" />
+    <Compile Include="Drawing\Rulers\ParalellRuler.cs" />
+    <Compile Include="Drawing\Rulers\PerspectiveRuler.cs" />
+    <Compile Include="Drawing\Rulers\StrictRuler.cs" />
     <Compile Include="Drawing\Services\CentralDrawingService.cs" />
     <Compile Include="Drawing\Services\DrawingConfigService.cs" />
     <Compile Include="Drawing\Services\PRenderer.cs" />

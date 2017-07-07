@@ -43,10 +43,6 @@ namespace Pen.Droid.Gestures
             //Control.Touch += HandleTouch;
            
         }
-
-        private bool TestM(MotionEvent arg)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

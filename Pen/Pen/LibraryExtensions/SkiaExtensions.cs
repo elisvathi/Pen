@@ -27,7 +27,9 @@ namespace Pen.LibraryExtensions
         }
         public static void EmptyBitmap(this SKBitmap bmp)
         {
-           
+            var pn = new SKPaint();
+            pn.BlendMode = SKBlendMode.Dst;
+            bmp.Erase(SKColors.Beige);
         }
     }
 }

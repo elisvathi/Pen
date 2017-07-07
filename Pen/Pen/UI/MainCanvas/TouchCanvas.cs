@@ -11,6 +11,7 @@ using Pen.Layering;
 using SkiaSharp;
 using Pen.LibraryExtensions;
 using Pen.Drawing.Services;
+using Pen.MathExtenions;
 
 namespace Pen.UI.MainCanvas
 {
@@ -46,6 +47,7 @@ namespace Pen.UI.MainCanvas
         {
             var info = e.Info;
             var canvas = e.Surface.Canvas;
+            canvas.Clear();
             foreach (var l in Layer_Manager.Layers)
             {
                 var bmp = l.GetBitmap;
@@ -86,17 +88,19 @@ namespace Pen.UI.MainCanvas
 
         private void RotateCanvas(RotateEventArgs args)
         {
-            
+            this.Rotation += args.Angle;
+            //args.Center.DebugVector();
         }
 
         private void ScaleCanvas(ScaleEventArgs args)
         {
-            
+            this.Scale *= args.Value;
         }
 
         private void PanCanvas(MoveEventArgs args)
         {
-           
+            //this.TranslationX += args.Displacement.X;
+            //this.TranslationY += args.Displacement.Y;
         }
     }
 }

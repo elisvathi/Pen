@@ -19,7 +19,7 @@ namespace Pen.Layering
         public void ClearLayer()
         {
             Canvas.SCanvas.Clear();
-            GetBitmap.EmptyBitmap();
+            
             
         }
         public SKBitmap GetBitmap { get { return Canvas.GetBitmap; } }

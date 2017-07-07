@@ -36,7 +36,7 @@ namespace Pen.ContextModules
 
             Bind<IRuler>().To<NoRuler>().InSingletonScope();
             Bind<IBrush>().To<SimpleBrush>().InSingletonScope();
-            Bind<IShape>().To<LineShape>().InTransientScope();
+            Bind<IShape>().To<FreeShape>().InTransientScope();
 
             Bind<DrawingConfigService>().ToSelf().InSingletonScope();
             Bind<CentralDrawingService>().ToSelf().InSingletonScope();

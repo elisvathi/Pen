@@ -92,6 +92,9 @@ namespace Pen.Droid.Gestures
                             SwapOldNew();
                             UpdateFirstPoint(e, e.FindPointerIndex(FirstID));
                             SingleTouchMoved();
+                        }else if (FirstID != -1)
+                        {
+                            FirstID = -1;
                         }
                         break;
                     }
@@ -105,7 +108,11 @@ namespace Pen.Droid.Gestures
                         }else if (IsSingleTouch(e))
                         {
                             SingleTouchEnded();
+                            FirstID = -1;
                             singleInProgress = false;
+                        }else if (FirstID != -1)
+                        {
+                            FirstID = -1;
                         }
                         break;
                     }
@@ -118,8 +125,12 @@ namespace Pen.Droid.Gestures
                         }
                         else if (IsSingleTouch(e))
                         {
+                            FirstID = -1;
                             SingleTouchCancelled();
                             singleInProgress = false;
+                        }else if(FirstID != -1)
+                        {
+                            FirstID = -1;
                         }
                         break;
                     }
@@ -132,10 +143,15 @@ namespace Pen.Droid.Gestures
                             {
                                 SingleTouchExited();
                             }
+                            if(FirstID != -1)
+                            {
+                                FirstID = -1;
+                            }
                         }
                         else
                         {
                             FinishDoubleTouch(e);
+                            FirstID = -1;
                             singleInProgress = false;
                         }
                         break;

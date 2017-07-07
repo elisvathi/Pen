@@ -177,7 +177,11 @@ namespace Pen.Gestures
         {
             get
             {
-                return PVector.AngleBetweenDegrees(PVector.Sub(oldSecondPoint, oldFirstPoint), PVector.Sub(newSecondPoint, newFirstPoint));
+                PVector oldvec = PVector.Sub(oldSecondPoint, oldFirstPoint);
+                PVector newvec = PVector.Sub(newSecondPoint, newFirstPoint);
+                var ang =  PVector.AngleBetweenDegrees(newvec, oldvec);
+                
+                return ang;
             }
         }
         #endregion OtherPrivateProperties
