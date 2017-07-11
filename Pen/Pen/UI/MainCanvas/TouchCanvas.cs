@@ -12,95 +12,53 @@ using SkiaSharp;
 using Pen.LibraryExtensions;
 using Pen.Drawing.Services;
 using Pen.MathExtenions;
+using Pen.Geometry;
 
 namespace Pen.UI.MainCanvas
 {
-    public class TouchCanvas : SKCanvasView
+    public abstract class TouchCanvas : SKCanvasView
     {
-        ContextManager _manager;
-        CentralDrawingService _service;
-        public TouchCanvas(ContextManager cm, DoubleTouchGestureRecognizer dt, SingleTouchGestureRecognizer st, CentralDrawingService serv)
+       protected PVector Center { get { return new PVector(X+Bounds.Width/2, Y+Bounds.Height/2); } }
+        public TouchCanvas(DoubleTouchGestureRecognizer dt, SingleTouchGestureRecognizer st)
         {
-            _service = serv;
-            _manager = cm;
+          
             dt.MoveTransform += PanCanvas;
             dt.ScaleTransform += ScaleCanvas;
             dt.RotateTransform += RotateCanvas;
             st.StartedTouch += StartTouch;
-            st.MovedTouch += MoveTouch;
+            st.MovedTouch += MoveTouch; 
             st.ExitedTouch += ExitTouch;
             st.CancelledTouch += CancelTouch;
             st.EndedTouch += EndTouch;
             GestureRecognizers.Add(st);
             GestureRecognizers.Add(dt);
-            PaintSurface += DrawLayers;
-            _service.OnChange += Redraw;
+            PaintSurface += DrawCanvas;
+           
         }
 
-        private void Redraw()
+        protected virtual void Redraw()
         {
-           InvalidateSurface();
+            InvalidateSurface();
         }
 
-        private LayerManager Layer_Manager { get { return _manager.ActiveKernel.Get<LayerManager>(); } }
-        private void DrawLayers(object sender, SKPaintSurfaceEventArgs e)
-        {
-            var info = e.Info;
-            var canvas = e.Surface.Canvas;
-            canvas.Clear();
-            foreach (var l in Layer_Manager.Layers)
-            {
-                var bmp = l.GetBitmap;
-                var rect = new SKRect(0, 0, bmp.Width, bmp.Height);
+        protected abstract void DrawCanvas(object sender, SKPaintSurfaceEventArgs e);
 
-                canvas.DrawBitmap(l.GetBitmap, info.Rect);
-            }
-            var temp = Layer_Manager.TempLayer.GetBitmap;
-            var temprect = new SKRect(0, 0, temp.Width, temp.Height);
-            canvas.DrawBitmap(temp, info.Rect);
-        }
+        protected abstract void EndTouch(PTouch args);
 
-        private void EndTouch(PTouch args)
-        {
-            _service.FinalizeDrawing(args);
-        }
+        protected abstract void CancelTouch(PTouch args);
 
-        private void CancelTouch(PTouch args)
-        {
-            _service.CancelDrawing(args);
+        protected abstract void ExitTouch(PTouch args);
 
-        }
+        protected abstract void MoveTouch(PTouch args);
 
-        private void ExitTouch(PTouch args)
-        {
-            _service.CancelDrawing(args);
-        }
+        protected abstract void RotateCanvas(RotateEventArgs args);
 
-        private void MoveTouch(PTouch args)
-        {
-            _service.UpdateShape(args);
-        }
+        protected abstract void StartTouch(PTouch args);
 
-        private void StartTouch(PTouch args)
-        {
-            _service.InitializeDrawing(args);
-        }
+        protected abstract void ScaleCanvas(ScaleEventArgs args);
 
-        private void RotateCanvas(RotateEventArgs args)
-        {
-            this.Rotation += args.Angle;
-            //args.Center.DebugVector();
-        }
+        protected abstract void PanCanvas(MoveEventArgs args);
 
-        private void ScaleCanvas(ScaleEventArgs args)
-        {
-            this.Scale *= args.Value;
-        }
 
-        private void PanCanvas(MoveEventArgs args)
-        {
-            //this.TranslationX += args.Displacement.X;
-            //this.TranslationY += args.Displacement.Y;
-        }
     }
 }

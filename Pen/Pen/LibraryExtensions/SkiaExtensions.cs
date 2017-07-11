@@ -31,5 +31,19 @@ namespace Pen.LibraryExtensions
             pn.BlendMode = SKBlendMode.Dst;
             bmp.Erase(SKColors.Beige);
         }
+        public static SKColor Copy(this SKColor c)
+        {
+            return new SKColor(c.Red, c.Green, c.Blue, c.Alpha);
+        }
+        public static float GetSaturation(this SKColor col)
+        {
+            col.ToHsv(out float h, out float s, out float b);
+            return s;
+        }
+        public static float GetValue(this SKColor col)
+        {
+            col.ToHsv(out float h, out float s, out float b);
+            return b;
+        }
     }
 }

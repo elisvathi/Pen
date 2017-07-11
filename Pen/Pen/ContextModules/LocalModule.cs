@@ -29,7 +29,7 @@ namespace Pen.ContextModules
             Bind<ContextManager>().ToConstant(_manager).InSingletonScope();
             Bind<PSize>().ToConstant(_manager.GlobalKernel.Get<PSize>()).InSingletonScope();
             Bind<CanvasPage>().ToSelf().InSingletonScope();
-            Bind<TouchCanvas>().ToSelf().InSingletonScope();
+            Bind<MainTouchCanvas>().ToSelf().InSingletonScope();
 
             Bind<BitmapWrapper>().ToSelf().InTransientScope();
             Bind<CanvasWrapper>().ToSelf().InTransientScope();

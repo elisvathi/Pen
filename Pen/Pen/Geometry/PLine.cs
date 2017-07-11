@@ -115,5 +115,17 @@ namespace Pen.Geometry
             var newLine = new PLine(p, a);
             return Intersection(newLine);
         }
+        public void RotateGeometry(PVector basePoint,double angle)
+        {
+            Start.RotateGeometry(basePoint, angle);
+            End.RotateGeometry(basePoint, angle);
+        }
+        public void HeadingTo(PVector target, PVector basePoint, PVector refPoint)
+        {
+            var vec = PVector.Sub(basePoint, refPoint);
+            var vecTarget = PVector.Sub(basePoint, target);
+            var ang = PVector.AngleBetweenDegrees(vec, vecTarget);
+            RotateGeometry(basePoint, ang);
+        }
     }
 }

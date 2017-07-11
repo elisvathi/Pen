@@ -42,14 +42,20 @@
     <Compile Include="ContextModules\ContextManager.cs" />
     <Compile Include="ContextModules\GlobalModule.cs" />
     <Compile Include="ContextModules\LocalModule.cs" />
+    <Compile Include="Drawing\Brushes\AbstractBrush.cs" />
+    <Compile Include="Drawing\Brushes\AdvancedBrush.cs" />
     <Compile Include="Drawing\Brushes\IBrush.cs" />
     <Compile Include="Drawing\Brushes\SimpleBrush.cs" />
     <Compile Include="Drawing\Rulers\AbstractRuler.cs" />
     <Compile Include="Drawing\Rulers\IRuler.cs" />
     <Compile Include="Drawing\Rulers\NoRuler.cs" />
+    <Compile Include="Drawing\Rulers\OnePointPerspectiveRuler.cs" />
     <Compile Include="Drawing\Rulers\ParalellRuler.cs" />
     <Compile Include="Drawing\Rulers\PerspectiveRuler.cs" />
     <Compile Include="Drawing\Rulers\StrictRuler.cs" />
+    <Compile Include="Drawing\Rulers\ThreePointPerspectiveRuler.cs" />
+    <Compile Include="Drawing\Rulers\TwoPointPerspectiveRuler.cs" />
+    <Compile Include="Drawing\Services\AdvancedBrushSettings.cs" />
     <Compile Include="Drawing\Services\CentralDrawingService.cs" />
     <Compile Include="Drawing\Services\DrawingConfigService.cs" />
     <Compile Include="Drawing\Services\PRenderer.cs" />
@@ -86,6 +92,32 @@
     </Compile>
     <Compile Include="MathExtenions\NumberConversions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ContextModules\BindableValue.cs" />
+    <Compile Include="UI\CustomControls\AbstractSlider.cs" />
+    <Compile Include="UI\CustomControls\BooleanSliders\BooleanController.cs" />
+    <Compile Include="UI\CustomControls\BooleanSliders\UseFIllController.cs" />
+    <Compile Include="UI\CustomControls\BooleanSliders\UseStrokeController.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\BlueSlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\ColorControl.cs" />
+    <Compile Include="UI\CustomControls\ColorPicker.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\GreenSlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\HueSlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\OpacitySlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\RedSlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\SaturationSlider.cs" />
+    <Compile Include="UI\CustomControls\ColorSliders\ValueSlider.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\FloatController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\OpacityDispersionController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\RotationDispersionController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\ScaleDispersionController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\XDispersionController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\YDispersionController.cs" />
+    <Compile Include="UI\CustomControls\PRoundSlider.cs" />
+    <Compile Include="UI\CustomControls\RoundSlider.cs" />
+    <Compile Include="UI\CustomControls\SliderController.cs" />
+    <Compile Include="UI\CustomControls\FloatSliders\StrokeWidthController.cs" />
+    <Compile Include="UI\CustomControls\StraightSlider.cs" />
+    <Compile Include="UI\MainCanvas\MainTouchCanvas.cs" />
     <Compile Include="UI\MainCanvas\TouchCanvas.cs" />
   </ItemGroup>
   <ItemGroup>

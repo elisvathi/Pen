@@ -54,8 +54,22 @@ namespace Pen.Geometry
         {
             get
             {
-                return Math.Atan(Y / X);
+                var val =  Math.Atan(Y / X);
+                
+                val = FixLargerAngle(val);
+                val = FixNegativeAngle(val);
+                return val;
             }
+        }
+        private double FixLargerAngle(double ang) {
+            var val = ang;
+            if (val > Math.PI * 2) { val %= Math.PI * 2; }
+            return val;
+        }
+        private double FixNegativeAngle(double ang)
+        {
+            var a = FixLargerAngle(Math.Abs(ang));
+            if (ang < 0) { a = Math.PI * 2 - a; return a; } else { return ang; }
         }
         public double AngleDegrees
         {
@@ -131,6 +145,14 @@ namespace Pen.Geometry
         public void DebugVector()
         {
             System.Diagnostics.Debug.WriteLine("VECOTR: X-> " + X+ "Y->" + Y);
+        }
+        public void RotateGeometry(PVector basePoint, double angleDegrees)
+        {
+            var vec = PVector.Sub(this, basePoint);
+            vec.RotateDegrees(angleDegrees);
+            vec.Add(basePoint);
+            X = vec.X;
+            Y = vec.Y;
         }
     }
 }

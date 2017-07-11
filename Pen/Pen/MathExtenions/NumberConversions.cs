@@ -24,5 +24,11 @@ namespace Pen.MathExtenions
         {
             return val * (180 / Math.PI);
         }
+        public static double Map(this double val, double x1, double y1, double x2, double y2) {
+            var dif1 = y1 - x1;
+            var rap = (val - x1) / dif1;
+            var dif2 = y2 - x2;
+            return rap * dif2 + x2;
+        }
     }
 }
