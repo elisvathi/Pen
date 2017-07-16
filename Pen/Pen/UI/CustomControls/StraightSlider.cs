@@ -47,6 +47,20 @@ namespace Pen.UI.CustomControls
                 return SKShader.CreateLinearGradient(StartingPoint.ToSKPoint(), EndingPoint.ToSKPoint(), GradientColors, GradientPositions, SKShaderTileMode.Repeat);
             }
         }
+        protected override SKColor[] GradientColors
+        {
+            get
+            {
+                int n = 100;
+                var cols = new SKColor[100];
+                for (int i = 0; i < n; i++)
+                {
+                    float nn = (float)i / (float)n;
+                    cols[i] = SKColor.FromHsv(nn * 360, 100, 100);
+                }
+                return cols;
+            }
+        }
         protected override PVector HandlerPosition
         {
             get
@@ -74,7 +88,9 @@ namespace Pen.UI.CustomControls
 
         protected override void DrawBackground(SKCanvas canv, SKImageInfo info)
         {
+            base.DrawBackground(canv, info);
             var rect = new SKRect(-_sliderWidth / 2, -_sliderHeight / 2, _sliderWidth / 2, _sliderHeight / 2);
+
             canv.DrawRect(rect, FillPaint);
             canv.DrawRect(rect, StrokePaint);
 

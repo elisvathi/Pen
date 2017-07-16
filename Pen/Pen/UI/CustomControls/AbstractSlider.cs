@@ -19,7 +19,7 @@ namespace Pen.UI.CustomControls
         private bool startedTouching = false;
         private float _prevValue;
         private float _value = 0;
-        protected virtual float _handlerSize { get; set; } = 20;
+        protected virtual float _handlerSize { get; set; } = 15;
         protected abstract PVector HandlerPosition { get; }
         protected float Value { get => _value; set { _value = value; SliderValueChanged?.Invoke(_value); Redraw(); } }
 
@@ -40,7 +40,9 @@ namespace Pen.UI.CustomControls
             canv.DrawCircle(HandlerPosition.X.ToFloat(), HandlerPosition.Y.ToFloat(), _handlerSize, HandlerFillPaint);
             canv.DrawCircle(HandlerPosition.X.ToFloat(), HandlerPosition.Y.ToFloat(), _handlerSize, StrokePaint);
         }
-        protected abstract void DrawBackground(SKCanvas canv, SKImageInfo info);
+        protected virtual void DrawBackground(SKCanvas canv, SKImageInfo info) {
+            canv.Clear();
+        }
         protected abstract SKShader GetBackGroundShader { get; }
         protected virtual SKColor[] GradientColors { get {
                 return new SKColor[] { SKColors.Black, SKColors.White };
@@ -52,7 +54,8 @@ namespace Pen.UI.CustomControls
                 {
                     Style = SKPaintStyle.Stroke,
                     StrokeWidth = 1,
-                    Color = SKColors.Black
+                    Color = SKColors.Black,
+                    IsAntialias = true
                 };
             } }
         private  SKPaint HandlerFillPaint { get {

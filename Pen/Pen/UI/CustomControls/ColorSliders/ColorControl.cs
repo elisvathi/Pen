@@ -28,8 +28,7 @@ namespace Pen.UI.CustomControls
         {
             InitializeValue(SKColor.Empty);
             InitializeValue(SKColor.Empty);
-            BindProperty(serv.StrokeCol, 0);
-            BindProperty(serv.FillCol, 0);
+           
         }
         protected override void UpdateProperty(float requestValue)
         {

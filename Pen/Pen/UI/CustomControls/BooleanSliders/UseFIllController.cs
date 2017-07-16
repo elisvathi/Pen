@@ -11,7 +11,7 @@ namespace Pen.UI.CustomControls.BooleanSliders
     {
         public UseFIllController(DrawingConfigService serv) : base()
         {
-            BindDefault(serv.UseFill);
+          
         }
     }
 }

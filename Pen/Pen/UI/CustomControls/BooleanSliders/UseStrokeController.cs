@@ -11,7 +11,7 @@ namespace Pen.UI.CustomControls.BooleanSliders
     {
         public UseStrokeController(DrawingConfigService serv):base()
         {
-            BindDefault(serv.UseStroke);
+            
         }
     }
 }

@@ -30,5 +30,38 @@ namespace Pen.MathExtenions
             var dif2 = y2 - x2;
             return rap * dif2 + x2;
         }
+        public static double FixAngleRadians(this double ang) {
+            var retVal = ang;
+            var rot = Math.PI * 2;
+            retVal %= rot;
+            if (retVal < 0) { retVal = rot - Math.Abs(retVal); }
+            return retVal;
+        }
+        public static double FixAngleDegrees(this double ang) {
+            return FixAngleRadians(ang.ToRadians()).ToDegrees();
+        }
+        public static double PvectorAngleToSkiaAngle(this double deg) {
+            return FixAngleDegrees(deg -90);
+        }
+        public static double SkiaAngleToPVectorAngle(this double deg)
+        {
+            return FixAngleDegrees(deg + 90);
+        }
+        public static float ConvertToSkiaAngle(this float deg)
+        {
+            return PvectorAngleToSkiaAngle(deg).ToFloat();
+        }
+        public static float ConvertToPVectorAngle(this float deg)
+        {
+            return SkiaAngleToPVectorAngle(deg).ToFloat();
+        }
+        public static float ConvertToSkiaAngle(this double deg)
+        {
+            return PvectorAngleToSkiaAngle(deg).ToFloat();
+        }
+        public static float ConvertToPVectorAngle(this double deg)
+        {
+            return SkiaAngleToPVectorAngle(deg).ToFloat();
+        }
     }
 }

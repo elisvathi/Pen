@@ -56,11 +56,20 @@ namespace Pen.Geometry
             {
                 var val =  Math.Atan(Y / X);
                 
-                val = FixLargerAngle(val);
-                val = FixNegativeAngle(val);
-                return val;
+                if (X > 0)
+                {
+                    if (val <= 0) { return Math.PI / 2 - Math.Abs(val); } else { return val + Math.PI / 2; }
+                }
+                else if (X < 0)
+                {
+                    if (val >= 0) { return Math.PI * 2 - (Math.PI / 2 - val); } else { return Math.PI * 2 - (Math.PI / 2 + Math.Abs(val)); }
+                }
+                else { if (Y <= 0) { return 0; } else { return Math.PI; } }
+                
             }
         }
+       
+
         private double FixLargerAngle(double ang) {
             var val = ang;
             if (val > Math.PI * 2) { val %= Math.PI * 2; }

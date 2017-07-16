@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Pen.UI.CustomControls
+namespace Pen.UI.Views
 {
-    public class ColorPicker : View
+   public class LayerManagerView :View
     {
-
     }
 }

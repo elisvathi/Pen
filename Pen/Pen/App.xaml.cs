@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using Pen.ContextModules;
+using Pen.UI.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Pen
             _manager = manager;
             InitializeComponent();
 
-            MainPage = manager.ActiveKernel.Get<CanvasPage>();
+            MainPage = manager.ActiveKernel.Get<TestPage>();
         }
 
         protected override void OnStart()

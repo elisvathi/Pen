@@ -50,6 +50,12 @@ namespace Pen.ContextModules
 
             Bind<DoubleTouchGestureRecognizer>().ToSelf().InTransientScope();
             Bind<SingleTouchGestureRecognizer>().ToSelf().InTransientScope();
+
+
+            //Drawing Configuration
+            Bind<BindableColor>().ToSelf().InSingletonScope().Named("StrokeColor");
+            Bind<BindableColor>().ToSelf().InSingletonScope().Named("FillColor");
+            
         }
     }
 }
