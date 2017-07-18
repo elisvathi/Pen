@@ -37,21 +37,27 @@ namespace Pen.Drawing.Services
 
         public float ScaleDispersion { get; set; }
         public float OpacityDispersion { get;set;}
-        public SKBlendMode BlendMode { get; set; }
+        public float StartingLength { get; set; }
+        public float EndingLength { get; set; }
+        public PBlendingMode BMode { get; set; }
+        public SKBlendMode BlendMode { get { return BMode.SelectedMode; } }
+
         public DrawingConfigService()
         {
             S_Width = 5;
             Hardness = 0.5F;
-
+            StartingLength = 200;
+            EndingLength = 200;
 
             XDispersion = 0;
             YDispersion = 0;
             RotationDispersion = 0;
 
             OpacityDispersion = 0;
-            BlendMode = SKBlendMode.DstOver;
+            
             ScaleDispersion = 0;
             XSpacing = 10;
+            BMode = new PBlendingMode();
         }
         public SKPaint SPaint
         {
@@ -59,7 +65,7 @@ namespace Pen.Drawing.Services
             {
                 return new SKPaint()
                 {
-                    //BlendMode = BlendMode.Value,
+                    //BlendMode = BlendMode,
                     Color = StrokeColor,
                     IsAntialias = true,
                     Style = SKPaintStyle.Stroke,

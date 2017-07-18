@@ -39,6 +39,10 @@ namespace Pen.Geometry
             vv.Mult(-1);
             Add(vv);
         }
+        public void Normalize()
+        {
+            SetMag(1);
+        }
         public double Mag
         {
             get

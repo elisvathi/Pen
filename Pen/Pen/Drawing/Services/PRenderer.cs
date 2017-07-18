@@ -27,99 +27,7 @@ namespace Pen.Drawing.Services
             ActiveCanvas.DrawLine(start.X.ToFloat(), start.Y.ToFloat(), end.X.ToFloat(), end.Y.ToFloat(), p);
         }
 
-        public void DrawPath(SKPath path)
-        {
-
-        }
-        public void DrawPath(List<PVector> points, SKCanvas canv)
-        {
-            int drawnPoints = 0;
-            var requiredLength = _BrushInfoService.XSpacing;
-            var actualPoint = points[0];
-            float actualLength = 0;
-
-            for (int i = 1; i < points.Count; i++)
-            {
-                var vecDist = PVector.DistanceBetween(points[i], actualPoint);
-                if (vecDist + actualLength < requiredLength)
-                {
-                    if (i < points.Count - 1) {
-                        actualLength += vecDist.ToFloat();
-                        actualPoint = points[i];
-                    }
-                    else
-                    {
-                        DrawPoint(points[i], PVector.Add(PVector.Sub(points[i], points[i - 1]), points[i]), canv, drawnPoints);
-                        drawnPoints++;
-                    }
-
-                }
-                else if (vecDist + actualLength > requiredLength)
-                {
-                    float d = requiredLength - actualLength;
-                    PVector p = PVector.Sub(points[i], points[i - 1]);
-                    while (d <= vecDist)
-                    {
-                        var p1 = p.Copy();
-                        p1.SetMag(d);
-                        p1.Add(actualPoint);
-                        DrawPoint(p1, points[i], canv, drawnPoints);
-                        drawnPoints++;
-                        d += requiredLength;
-                    }
-                    p.SetMag(d);
-                    p.Add(points[i - 1]);
-                    actualPoint = p;
-                    actualLength = vecDist.ToFloat() - d;
-
-                }
-                else {
-                    if (i < points.Count - 1) { DrawPoint(points[i], points[i + 1], canv, drawnPoints); drawnPoints++; } else
-                    {
-                        DrawPoint(points[i], PVector.Add(PVector.Sub(points[i], points[i - 1]), points[i]), canv, drawnPoints); drawnPoints++;
-                    }
-                    actualPoint = points[i];
-                    actualLength = 0;
-                }
-            }
-        }
-
-        public static SKPath GetPath(List<PVector> points)
-        {
-            var d = new List<SKPoint>();
-            foreach (var t in points)
-            {
-                d.Add(t.ToSKPoint());
-            }
-            return GetPath(d.ToArray());
-        }
-
-        public static SKPath GetPath(SKPoint[] points)
-        {
-            var retVal = new SKPath();
-            for (int i = 0; i < points.Length; i += 2) {
-                if (i + 2 < points.Length)
-                {
-                    retVal.CubicTo(points[i], points[i + 1], points[i + 2]);
-                }
-                else if (i + 1 < points.Length)
-                {
-                    retVal.ConicTo(points[i], points[i + 1], 0.33F);
-                }
-
-
-            }
-            return retVal;
-        }
-        public static List<PVector> GetPointsFromPath(SKPath path)
-        {
-            var retVal = new List<PVector>();
-            var it = path.CreateRawIterator();
-           
-            
-            return retVal;
-        }
-
+      
 
         private PVector GetNewDrawingPoint(PVector p, PVector next, int n)
         {
@@ -196,7 +104,7 @@ namespace Pen.Drawing.Services
             {
                 Style = SKPaintStyle.Fill,
                 Shader = shad,
-                BlendMode = SKBlendMode.Multiply
+                BlendMode = _BrushInfoService.BlendMode
             };
         }
         private SKShader GetRadialGradient(SKColor col, PVector position, float radius, float alpha, float hardness)
@@ -210,15 +118,59 @@ namespace Pen.Drawing.Services
             return SKShader.CreateRadialGradient(p, radius, cols, positions, SKShaderTileMode.Clamp);
         }
 
-        public void DrawPoint(PVector p, PVector next, SKCanvas canv, int n)
+        public void DrawPoint(PVector p, PVector next, SKCanvas canv, int n, float koef=1)
         {
-            var newPosition = GetNewDrawingPoint(p, next,n);
-            var newOpacity = GetNewOpacity(n);
-            var newScale = GetNewScale(n);
+            var npos = GetNewDrawingPoint(p, next,n);
+            var newPosition = PVector.Sub(npos, p);
+            newPosition.Mult(koef);
+            newPosition.Add(p);
+            
+            var newOpacity = GetNewOpacity(n) * koef;
+            var newScale = GetNewScale(n)*koef;
             var col = GetNewColor(n);
             var hardness = GetNewHardness(n);
             SKPaint shad = GetRadialPaint(col, newPosition, newScale, newOpacity, hardness);
             canv.DrawCircle(newPosition.X.ToFloat(), newPosition.Y.ToFloat(), newScale, shad);
+        }
+
+        public void DrawCurve(PCurve curve, SKCanvas canv) {
+            int drawnPoints = 0;
+            var step = _BrushInfoService.XSpacing;
+            var div = curve.DivideLength(step);
+           
+            float len = 0;
+            for(int i = 0;i< div.Count - 1; i++)
+            {
+
+                DrawPoint(div[i], div[i + 1], canv, drawnPoints, CurvePositionKoeficient(len, curve.Length));
+                drawnPoints++;
+                len += PVector.DistanceBetween(div[i], div[i + 1]).ToFloat();
+            }
+            PVector vec = PVector.Sub(div.Last(), div.Count>1?div[div.Count - 2]:PVector.Add(div.Last(), new PVector(0,1)));
+            vec.Add(div.Last());
+            DrawPoint(div.Last(), vec, canv, drawnPoints, CurvePositionKoeficient(curve.Length, curve.Length));
+            drawnPoints++;
+        }
+       
+        
+        public void DrawCurve(PCurve curve) {
+            DrawCurve(curve, ActiveCanvas);
+        }
+
+        float CurvePositionKoeficient(float pos, float totalLength)
+        {
+            float startingLength = _BrushInfoService.StartingLength;
+            float endingLength = _BrushInfoService.EndingLength;
+            if (totalLength < startingLength + endingLength)
+            {
+                float startingDist = (startingLength / (startingLength + endingLength)) * totalLength;
+                float endingDist = (endingLength / (startingLength + endingLength)) * totalLength;
+                if (pos <= startingDist) { return pos.ToDouble().Map(0, startingDist, 0, startingDist / startingLength).ToFloat(); }
+                else { return (totalLength - pos).ToDouble().Map(0, endingDist, 0, endingDist / endingLength).ToFloat(); }
+            } else
+            {
+                if (pos <= startingLength) { return pos / startingLength; } else if (pos >= totalLength - endingLength) { return (totalLength - pos).ToDouble().Map(0, endingLength, 0, 1).ToFloat(); } else { return 1; }
+            }
         }
 
         private float Clamp(float value, float start, float end)

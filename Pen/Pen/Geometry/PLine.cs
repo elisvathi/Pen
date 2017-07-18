@@ -115,6 +115,17 @@ namespace Pen.Geometry
             var newLine = new PLine(p, a);
             return Intersection(newLine);
         }
+
+        public bool ContainsClosestPoint(PVector p)
+        {
+            var v = ClosesetPoint(p);
+            return PVector.DistanceBetween(v, Start) <= Length && PVector.DistanceBetween(v, End) <= Length;
+        }
+        public double DistanceFromPoint(PVector p)
+        {
+            return PVector.DistanceBetween(p, ClosesetPoint(p));
+        }
+
         public void RotateGeometry(PVector basePoint,double angle)
         {
             Start.RotateGeometry(basePoint, angle);

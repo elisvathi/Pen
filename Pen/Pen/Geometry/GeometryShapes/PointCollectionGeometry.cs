@@ -13,7 +13,11 @@ namespace Pen.Geometry.GeometryShapes
         {
             _pointData = new List<PVector>();
         }
-        private double Length
+        public PointCollectionGeometry(List<PVector> data)
+        {
+            _pointData = data;
+        }
+        public double Length
         {
             get
             {
@@ -26,6 +30,8 @@ namespace Pen.Geometry.GeometryShapes
             }
         }
         public List<PVector> ControlPoints => new List<PVector>(_pointData);
+
+        public List<PVector> PointData { get => _pointData;}
 
         public void AddStartPoint(PVector p)
         {
@@ -44,7 +50,7 @@ namespace Pen.Geometry.GeometryShapes
 
         public List<PVector> GetDividePoints(int n)
         {
-            var dist = Length / n;
+            var dist = (Length/n)/Length ;
             var retVal = new List<PVector>();
             for (int i = 0; i < n; i++) {
                 retVal.Add(PositionAt(i * dist));
@@ -52,11 +58,11 @@ namespace Pen.Geometry.GeometryShapes
             retVal.Add(_pointData.Last());
             return retVal;
         }
-        private PVector PositionAt(double val)
+        public PVector PositionAt(double val)
         {
             double value;
             if (val > 1) { value = 1; } else if (val < 0) { value = 0; } else { value = val; }
-            var dist = value / Length;
+            var dist = Length*value;
             double actualDist = 0;
             int actualIndex = 0;
             while (actualDist <= dist && actualIndex < _pointData.Count)
@@ -68,7 +74,7 @@ namespace Pen.Geometry.GeometryShapes
                     vec.SetMag(remainingValue);
                     vec.Add(_pointData[actualIndex]);
                     return vec;
-                    
+
                 }
                 else
                 {
@@ -77,6 +83,7 @@ namespace Pen.Geometry.GeometryShapes
                 }
             }
             return _pointData.Last();
+
         }
         public void UpdateWithControlPoints(List<PVector> data)
         {

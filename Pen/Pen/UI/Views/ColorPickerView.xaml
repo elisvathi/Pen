@@ -3,30 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="Pen.UI.Views.ColorPickerView">
-  <ContentView.Content>
-      <StackLayout>
-            
-            <Switch Toggled="Switch_Toggled"></Switch>
-            <skia:SKCanvasView x:Name="SkiaSurf" PaintSurface="SKCanvasView_PaintSurface" HeightRequest="200"></skia:SKCanvasView>
-            <Label Text="Hue"></Label>
-            <Slider Minimum="0" Maximum="360" Value="{Binding Hue}" ValueChanged="Slider_ValueChanged">Hue</Slider>
-            <Label Text="Saturation"></Label>
-            <Slider Minimum="0" Maximum="100" Value="{Binding Saturation}" ValueChanged="Slider_ValueChanged">Sat</Slider>
-            <Label Text="Lightness"></Label>
-            <Slider Minimum="0" Maximum="100" Value="{Binding Value}" ValueChanged="Slider_ValueChanged">Value</Slider>
-            <Label Text="Opacity"></Label>
-            <Slider Minimum="0" Maximum="255" Value="{Binding Alpha}" ValueChanged="Slider_ValueChanged">Alpha</Slider>
-            <Label Text="BrushSize"></Label>
-            <Slider  x:Name="StrokeWidthSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="200" Value="{Binding S_Width}"></Slider>
-            <Label Text="Hardness"></Label>
-            <Slider x:Name="HardnesSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Margin="1" Value="{Binding Hardness}"></Slider>
-            <Label Text="Spacing"></Label>
-            <Slider x:Name="SpacingSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="100" Value="{Binding XSpacing}"></Slider>
-            <Slider x:Name="XDispSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="400" Value="{Binding XDispersion}"></Slider>
-            <Slider x:Name="YDispSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="400" Value="{Binding YDispersion}"></Slider>
-            <Slider x:Name="ScaleSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="100" Value="{Binding ScaleDispersion}"></Slider>
-            <Slider x:Name="OpacityRandomSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="200" Value="{Binding OpacityDispersion}"></Slider>
+    <ContentView.Content>
+        <StackLayout>
+            <StackLayout>
+                <Switch Toggled="Switch_Toggled"></Switch>
+                <Button Clicked="Button_Clicked" Text="GO TO CANVAS"></Button>
+                <skia:SKCanvasView x:Name="SkiaSurf" PaintSurface="SKCanvasView_PaintSurface" HeightRequest="200"></skia:SKCanvasView>
+            </StackLayout>
+            <ScrollView>
+                <StackLayout>
+                    <Label Text="Hue"></Label>
+                    <Slider Minimum="0" Maximum="360" Value="{Binding Hue}" ValueChanged="Slider_ValueChanged">Hue</Slider>
+                    <Label Text="Saturation"></Label>
+                    <Slider Minimum="0" Maximum="100" Value="{Binding Saturation}" ValueChanged="Slider_ValueChanged">Sat</Slider>
+                    <Label Text="Lightness"></Label>
+                    <Slider Minimum="0" Maximum="100" Value="{Binding Value}" ValueChanged="Slider_ValueChanged">Value</Slider>
+                    <Label Text="Opacity"></Label>
+                    <Slider Minimum="0" Maximum="255" Value="{Binding Alpha}" ValueChanged="Slider_ValueChanged">Alpha</Slider>
+                    <Picker x:Name="BMSelector" Title="Blending Mode"  SelectedIndexChanged="BMSelector_SelectedIndexChanged"></Picker>
+                    <Label Text="BrushSize"></Label>
+                    <Slider  x:Name="StrokeWidthSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="200" Value="{Binding S_Width}"></Slider>
+                    <Label Text="Hardness"></Label>
+                    <Slider x:Name="HardnesSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Margin="1" Value="{Binding Hardness}"></Slider>
+                    <Label Text="Spacing"></Label>
+                    <Slider x:Name="SpacingSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="100" Value="{Binding XSpacing}"></Slider>
+                    <Label Text="X Jitter"></Label>
+                    <Slider x:Name="XDispSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="400" Value="{Binding XDispersion}"></Slider>
+                    <Label Text="Y Jitter"></Label>
+                    <Slider x:Name="YDispSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="400" Value="{Binding YDispersion}"></Slider>
+                    <Label Text="Scale Jitter"></Label>
+                    <Slider x:Name="ScaleSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="100" Value="{Binding ScaleDispersion}"></Slider>
+                    <Label Text="Opacity Jitter"></Label>
+                    <Slider x:Name="OpacityRandomSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="200" Value="{Binding OpacityDispersion}"></Slider>
+                    <Label Text="Hue Jitter"></Label>
+                    <Slider x:Name="HueJitterSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="360" Value="{Binding HueDispersion}"></Slider>
+                    <Label Text="Saturation Jitter"></Label>
+                    <Slider x:Name="SaturationJitterSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="360" Value="{Binding SaturationDispersion}"></Slider>
+                    <Label Text="Lightness Jitter"></Label>
+                    <Slider x:Name="LightnessJitterSlider" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="360" Value="{Binding LightnessDispersion}"></Slider>
+                    <Label Text="Hardness Jitter"></Label>
+                    <Slider x:Name="HardnessJitter" ValueChanged="Slider_ValueChanged" Minimum="0" Maximum="1" Value="{Binding HardnessDispersion}"></Slider>
 
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
-  </ContentView.Content>
+    </ContentView.Content>
 </ContentView>

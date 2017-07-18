@@ -28,19 +28,23 @@ namespace Pen.UI.MainCanvas
         private LayerManager Layer_Manager { get { return _manager.ActiveKernel.Get<LayerManager>(); } }
         protected override void DrawCanvas(object sender, SKPaintSurfaceEventArgs e)
         {
+
             var info = e.Info;
             var canvas = e.Surface.Canvas;
             canvas.Clear();
             foreach (var l in Layer_Manager.Layers)
             {
                 var bmp = l.GetBitmap;
-                var rect = new SKRect(0, 0, bmp.Width, bmp.Height);
 
-                canvas.DrawBitmap(l.GetBitmap, info.Rect);
+                //l.Canvas.SCanvas.DrawBitmapNinePatch()
+                var rect = new SKRect(0, 0, info.Width, info.Height);
+
+                canvas.DrawBitmap(l.GetBitmap, new SKRect(0,0,l.GetBitmap.Width, l.GetBitmap.Height));
+
             }
             var temp = Layer_Manager.TempLayer.GetBitmap;
             var temprect = new SKRect(0, 0, temp.Width, temp.Height);
-            canvas.DrawBitmap(temp, info.Rect);
+            canvas.DrawBitmap(temp, temprect);
         }
 
         protected override void EndTouch(PTouch args)
@@ -67,12 +71,14 @@ namespace Pen.UI.MainCanvas
         protected override void StartTouch(PTouch args)
         {
             _service.InitializeDrawing(args);
+            System.Diagnostics.Debug.WriteLine("CALLED");
         }
 
         protected override void RotateCanvas(RotateEventArgs args)
         {
             this.Rotation += args.Angle;
             //args.Center.DebugVector();
+            System.Diagnostics.Debug.WriteLine("ISROTATED");
         }
 
         protected override void ScaleCanvas(ScaleEventArgs args)

@@ -58,13 +58,16 @@
     <Compile Include="Drawing\Rulers\TwoPointPerspectiveRuler.cs" />
     <Compile Include="Drawing\Services\AdvancedBrushSettings.cs" />
     <Compile Include="Drawing\Services\BindableColor.cs" />
+    <Compile Include="Drawing\Services\BrushOptions.cs" />
     <Compile Include="Drawing\Services\CentralDrawingService.cs" />
     <Compile Include="Drawing\Services\DrawingConfigService.cs" />
+    <Compile Include="Drawing\Services\PBlendingMode.cs" />
     <Compile Include="Drawing\Services\PRenderer.cs" />
     <Compile Include="Drawing\Shapes\AbstractShape.cs" />
     <Compile Include="Drawing\Shapes\FreeShape.cs" />
     <Compile Include="Drawing\Shapes\IShape.cs" />
     <Compile Include="Drawing\Shapes\LineShape.cs" />
+    <Compile Include="Geometry\ICurve.cs" />
     <Compile Include="Geometry\GeometryShapes\IGeometricShape.cs" />
     <Compile Include="Geometry\GeometryShapes\LineGeometry.cs" />
     <Compile Include="Geometry\GeometryShapes\PointCollectionGeometry.cs" />
@@ -114,6 +117,8 @@
     <Compile Include="UI\CustomControls\RoundSlider.cs" />
     <Compile Include="UI\CustomControls\SliderController.cs" />
     <Compile Include="UI\CustomControls\StraightSlider.cs" />
+    <Compile Include="UI\Helpers\BackgroundImage.cs" />
+    <Compile Include="UI\MainCanvas\MainCanvasPage.cs" />
     <Compile Include="UI\MainCanvas\MainTouchCanvas.cs" />
     <Compile Include="UI\MainCanvas\TouchCanvas.cs" />
     <Compile Include="UI\Views\BrushOptionsView.cs" />
@@ -123,6 +128,9 @@
     <Compile Include="UI\Views\GalleryView.cs" />
     <Compile Include="UI\Views\HomeView.cs" />
     <Compile Include="UI\Views\LayerManagerView.cs" />
+    <Compile Include="UI\Views\LayerView\LayersPage.cs" />
+    <Compile Include="UI\Views\LayerView\LayersView.cs" />
+    <Compile Include="UI\Views\LayerView\LayerThumbnail.cs" />
     <Compile Include="UI\Views\MainControlsView.cs" />
     <Compile Include="UI\Views\TestPage.cs" />
   </ItemGroup>
@@ -164,6 +172,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bg.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

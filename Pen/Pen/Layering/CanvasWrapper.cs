@@ -20,5 +20,9 @@ namespace Pen.Layering
         }
         public SKCanvas SCanvas { get=>_canvas; }
         public SKBitmap GetBitmap { get => _bmp.SBitmap; }
+        public void SetMatrix(SKMatrix mat)
+        {
+            _canvas.SetMatrix(mat);
+        }
     }
 }
