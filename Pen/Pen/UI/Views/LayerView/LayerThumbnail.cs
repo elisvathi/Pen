@@ -28,11 +28,20 @@ namespace Pen.UI.Views.LayerView
                    canv
                 }
             };
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += Make_active_layer;
+            GestureRecognizers.Add(tap);
             HorizontalOptions = LayoutOptions.FillAndExpand;
             VerticalOptions = LayoutOptions.FillAndExpand;
             //HeightRequest =  Width*(l.GetBitmap.Width/l.GetBitmap.Height);
             BgPaint.Shader = manager.ActiveKernel.Get<BackgroundImage>().GetShader();
         }
+
+        private void Make_active_layer(object sender, EventArgs e)
+        {
+            manager.ActiveKernel.Get<LayerManager>().MakeLayerActive(layer);
+        }
+
         private SKPaint BgPaint = new SKPaint()
         {
            

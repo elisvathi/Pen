@@ -25,7 +25,14 @@ namespace Pen.Layering
             AddNewLayer();
             IsDrawingTemp = true;
         }
+        public bool IsActive(PLayer l)
+        {
+            if (Layers.Contains(l))
+                if (Layers.IndexOf(l) == ActiveLayerIndex) return true;
+            return false;
 
+        }
+        
         public SKCanvas CanvasToDraw { get { return IsDrawingTemp ? _temp.Canvas.SCanvas : ActiveLayer.Canvas.SCanvas; } }
 
         public PLayer ActiveLayer { get { if (ActiveLayerIndex >= 0) return _layers[ActiveLayerIndex]; else return null; } }
@@ -50,6 +57,11 @@ namespace Pen.Layering
         {
             RemoveLayer(_layers[i]);
 
+        }
+        public void MakeLayerActive(PLayer l)
+        {
+            if (Layers.Contains(l))
+                ActiveLayerIndex = Layers.IndexOf(l);
         }
         private void ChangeActiveLayerAutomatically()
         {

@@ -17,13 +17,13 @@ namespace Pen.UI.MainCanvas
     {
         protected ContextManager _manager;
         protected CentralDrawingService _service;
-        public MainTouchCanvas(ContextManager cm, DoubleTouchGestureRecognizer dt, SingleTouchGestureRecognizer st, CentralDrawingService serv) : base( dt, st)
+        public MainTouchCanvas(ContextManager cm, DoubleTouchGestureRecognizer dt, SingleTouchGestureRecognizer st, CentralDrawingService serv) : base(dt, st)
         {
             _manager = cm;
             _service = serv;
             _service.OnChange += Redraw;
         }
-       
+
 
         private LayerManager Layer_Manager { get { return _manager.ActiveKernel.Get<LayerManager>(); } }
         protected override void DrawCanvas(object sender, SKPaintSurfaceEventArgs e)
@@ -33,18 +33,22 @@ namespace Pen.UI.MainCanvas
             var canvas = e.Surface.Canvas;
             canvas.Clear();
             foreach (var l in Layer_Manager.Layers)
+
             {
                 var bmp = l.GetBitmap;
 
                 //l.Canvas.SCanvas.DrawBitmapNinePatch()
                 var rect = new SKRect(0, 0, info.Width, info.Height);
 
-                canvas.DrawBitmap(l.GetBitmap, new SKRect(0,0,l.GetBitmap.Width, l.GetBitmap.Height));
-
+                canvas.DrawBitmap(l.GetBitmap, new SKRect(0, 0, l.GetBitmap.Width, l.GetBitmap.Height));
+                if (Layer_Manager.IsActive(l))
+                {
+                    var temp = Layer_Manager.TempLayer.GetBitmap;
+                    var temprect = new SKRect(0, 0, temp.Width, temp.Height);
+                    canvas.DrawBitmap(temp, temprect);
+                }
             }
-            var temp = Layer_Manager.TempLayer.GetBitmap;
-            var temprect = new SKRect(0, 0, temp.Width, temp.Height);
-            canvas.DrawBitmap(temp, temprect);
+
         }
 
         protected override void EndTouch(PTouch args)

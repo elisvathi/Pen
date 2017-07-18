@@ -14,6 +14,8 @@ namespace Pen.UI.Views.LayerView
     {
         private LayerManager lmanager;
         private ContextManager manager;
+        private StackLayout cont = new StackLayout();
+
         public LayersView(LayerManager lmg, ContextManager mg )
         {
             lmanager = lmg;
@@ -28,22 +30,33 @@ namespace Pen.UI.Views.LayerView
                 Text = "Close"
             };
             butCl.Clicked += Close_window;
+            var scroll = new ScrollView();
+            scroll.Content = cont;
             var layout = new StackLayout
             {
                 Children = {
                     but,
                     butCl,
                     new Label { Text = "Layers" },
+                    cont
                 }
             };
-            
-            foreach (var l in lmanager.Layers)
-            {
-                layout.Children.Add(new LayerThumbnail(l, manager));
-            }
+
+            RefreshLayers();
             Content = layout;
         }
+        
+        private void RefreshLayers()
+        {
+            cont.Children.Clear();
+            for (int i = lmanager.Layers.Count - 1; i >= 0; i--)
+            {
+                var l = lmanager.Layers[i];
+                //v.Children.Add(new LayerThumbnail(l, manager));
+                cont.Children.Add(new LayerThumbnail(l, manager));
+            }
 
+        }
         private void Close_window(object sender, EventArgs e)
         {
             Navigation.PushModalAsync(manager.ActiveKernel.Get<MainCanvasPage>());
@@ -52,6 +65,7 @@ namespace Pen.UI.Views.LayerView
         private void Create_layer(object sender, EventArgs e)
         {
             lmanager.AddNewLayer();
+            RefreshLayers();
             ForceLayout();
         }
     }
